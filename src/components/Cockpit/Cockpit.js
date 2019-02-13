@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './Cockpit.css';
 
 
 const cockpit = (props) => {
+    const toggleBtnRef = useRef(null);
 
     useEffect(() => {
         console.log('[Cockpit.js] useEffect');
-        setTimeout(() => {
-            alert('Saved data to cloud!');
-        }, 1000);
+        // setTimeout(() => {
+        //     //alert('Saved data to cloud!');
+        //     console.log('Saved data to cloud!');
+        // }, 1000);
+        toggleBtnRef.current.click();
         return () => {
             console.log('[Cockpit.js] cleanup work in useEffect');
         }
@@ -29,11 +32,11 @@ const cockpit = (props) => {
         color: 'white'
       };
     }
-    if(props.persons.length <= 2) {
+    if(props.personsLength <= 2) {
       classes.push('red');
     }
 
-    if(props.persons.length <= 1) {
+    if(props.personsLength <= 1) {
       classes.push('bold');
     }
 
@@ -41,9 +44,10 @@ const cockpit = (props) => {
         <div className="Cockpit">
             <h1>{props.appTitle}</h1>
             <p className={classes.join(' ')}>This is really working</p>
-            <button style={style} onClick={props.toggle}>Toggle Persons</button>
+            <button ref={toggleBtnRef} style={style} onClick={props.toggle}>Toggle Persons</button>
+            <button onClick={props.login}>Log in</button>
         </div>
     );
 };
 
-export default cockpit;
+export default React.memo(cockpit);
