@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
+import AuthContext from '../../../context/auth-context';
 
 // import Aux from '../../../hoc/Aux';
 import withClass from '../../../hoc/withClass';
@@ -11,9 +12,12 @@ class Person extends Component {
         this.inputElementRef = React.createRef();
     }
 
+    static contextType = AuthContext;
+
     componentDidMount() {
         //this.inputElement.focus();
         this.inputElementRef.current.focus();
+        console.log(this.context.authenticated);
     }
 
     render() {
@@ -21,17 +25,17 @@ class Person extends Component {
         return (
                 <Fragment>
                     <div className="Person">
-                        {this.props.isAuth ? <p>Authenticated</p> : <p>Please log in</p>}
-                        <p key="i1" onClick={this.props.click}>I'm {this.props.name} and I am {this.props.age} years old!</p>
-                        <p key="i2" >{this.props.children}</p>
-                        <input 
-                            //ref={(inputEl) => {this.inputElement = inputEl}}
-                            ref={this.inputElementRef}
-                            key="i3" 
-                            type="text" 
-                            onChange={this.props.changed} 
-                            value={this.props.name} 
-                        />
+                            {this.context.authenticated ? <p>Authenticated</p> : <p>Please log in</p>}
+                            <p key="i1" onClick={this.props.click}>I'm {this.props.name} and I am {this.props.age} years old!</p>
+                            <p key="i2" >{this.props.children}</p>
+                            <input 
+                                //ref={(inputEl) => {this.inputElement = inputEl}}
+                                ref={this.inputElementRef}
+                                key="i3" 
+                                type="text" 
+                                onChange={this.props.changed} 
+                                value={this.props.name} 
+                            />
                     </div>
                 </Fragment>
             );
